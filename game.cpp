@@ -8,6 +8,8 @@ using namespace std;
 #define X 99
 #define Y 99
 
+
+
 bool start = false;
 int a[4][4],b[4][4]={0};
 
@@ -276,7 +278,8 @@ void left()
 
 void rdmghusa()
 {
-    int x = 0, y =0;
+    srand(time(0));
+    int x=rand()%4, y =rand()%4;
     while(b[x][y]!=0)
     {
         x = rand()%4;
@@ -290,6 +293,7 @@ void rdmghusa()
 
 void init()
 {
+    srand(time(0));
     if(!start){
         
         int x = rand()%4, y =rand()%4;
@@ -318,7 +322,7 @@ int main()
     //// RENDERING WINDOW  /////
     srand(time(0));
     RenderWindow window(VideoMode(480,640), "2048-Rahul Indra");
-    Texture t,t1[10];    
+    Texture t,t1[11];    
     t.loadFromFile("images/panel.jpg");
     t1[0].loadFromFile("images/2.jpg");
     t1[1].loadFromFile("images/4.jpg");
@@ -327,14 +331,15 @@ int main()
     t1[4].loadFromFile("images/32.jpg");
     t1[5].loadFromFile("images/64.jpg");
     t1[6].loadFromFile("images/128.jpg");
-    t1[7].loadFromFile("images/512.jpg");
-    t1[8].loadFromFile("images/1024.jpg");
-    t1[9].loadFromFile("images/2048.jpg");
+    t1[7].loadFromFile("images/256.jpg");
+    t1[8].loadFromFile("images/512.jpg");
+    t1[9].loadFromFile("images/1024.jpg");
+    t1[10].loadFromFile("images/2048.jpg");
     Sprite panel(t);
     
     vector <Sprite> num;
     
-    for(int i=0;i<10;i++)
+    for(int i=0;i<11;i++)
     num.push_back(Sprite(t1[i]));
     init();
     //// RENDERING WINDOW  /////
