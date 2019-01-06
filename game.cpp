@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include<bits/stdc++.h>
+#include <sstream>
+#include <string>
 using namespace sf;
 using namespace std;
 #define yval 211.9393258426966
@@ -12,7 +14,7 @@ using namespace std;
 
 bool start = false;
 int a[4][4],b[4][4]={0};
-
+int sum=0;
 int indexnikalo(int n)
 {
     int count=0;
@@ -79,8 +81,10 @@ void dwn()
                     if(a[i][j]==a[i+1][j])
                     {
                         a[i+1][j]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -101,8 +105,10 @@ void dwn()
                     if(a[i][j]==a[k][j])
                     {
                         a[k][j]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -133,8 +139,10 @@ void upw()
                     if(a[i][j]==a[i-1][j])
                     {
                         a[i-1][j]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -155,8 +163,10 @@ void upw()
                     if(a[i][j]==a[k][j])
                     {
                         a[k][j]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -185,8 +195,10 @@ void right()
                     if(a[i][j]==a[i][j+1])
                     {
                         a[i][j+1]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -207,8 +219,10 @@ void right()
                     if(a[i][j]==a[i][k])
                     {
                         a[i][k]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                       
                     }
 
                     else
@@ -237,8 +251,10 @@ void left()
                     if(a[i][j]==a[i][j-1])
                     {
                         a[i][j-1]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -259,8 +275,10 @@ void left()
                     if(a[i][j]==a[i][k])
                     {
                         a[i][k]=a[i][j]*2;
+                        sum+= a[i][j]*2;
                         a[i][j]=0;
                         b[i][j]=0;
+                        
                     }
 
                     else
@@ -322,7 +340,7 @@ int main()
     //// RENDERING WINDOW  /////
     srand(time(0));
     RenderWindow window(VideoMode(480,640), "2048-Rahul Indra");
-    Texture t,t1[11];    
+    Texture t,t1[11];
     t.loadFromFile("images/panel.jpg");
     t1[0].loadFromFile("images/2.jpg");
     t1[1].loadFromFile("images/4.jpg");
@@ -348,6 +366,26 @@ int main()
     while(window.isOpen())
     { 
         
+            if(check)
+                window.clear(Color::White);
+            else
+                exit(0);
+            //// SCORE /////
+
+            Text text;
+            Font f;
+            f.loadFromFile("hey.TTF");
+            ostringstream str1; 
+            str1 << sum;
+            string score = str1.str(); 
+            text.setString(score);
+            text.setFont(f);
+            text.setCharacterSize(24);
+            text.setColor(Color::White);
+            text.move(322.47852760736197,58.454545454545);
+
+            //// SCORE /////
+
             Event e;
             while(window.pollEvent(e))
             {
@@ -365,11 +403,13 @@ int main()
             //// PRINT PANEL //////
             window.clear(Color::White);
             window.draw(panel);
+            window.draw(text);
+            // cout << sum <<endl;
             for(int i=0;i<4;i++)
             {
                 for(int j=0;j<4;j++)
                 {
-                    cout << a[i][j] << " ";
+                    // cout << a[i][j] << " ";
                    if(b[i][j]==1)
                     {
                         num[indexnikalo(a[i][j])-1].setPosition(xval+X*j,yval+Y*i);
@@ -377,17 +417,14 @@ int main()
                     }
 
                 }
-                cout << endl;
+                // cout << endl;
             }
 
 
             //// PRINT PANEL //////
             
             window.display();
-            if(check)
-                window.clear(Color::White);
-            else
-                exit(0);
+            
     
     }
         
