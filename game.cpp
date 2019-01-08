@@ -43,29 +43,46 @@ bool checkwin()
     return false;
 }
 
-bool check()
+int getMovesLeft()
+{	
+	int left=0;
+	for(int i=0;i<4;i++)
+	{
+		for(int j=0;j<4;j++)
+		{
+			if(b[i][j]==1){
+				if(i+1<4 && (a[i][j]==a[i+1][j] || b[i+1][j]==0)) left++;
+				if(j+1<4 && (a[i][j]==a[i][j+1] || b[i][j+1]==0)) left++;
+			}
+		}
+	}
+	return left;
+}
+
+int hasEmptyCell()
 {
-    int flag = 0;
     for(int i=0;i<4;i++)
     {
         for(int j=0;j<4;j++)
         {
             if(b[i][j]==0)
             {
-                flag = 1;
-                break;
+                return 1;
             }
         }
 
     }
-
-    if(!flag)
-    {
-        return checkwin();
-    }
-
-    else
-        return true;
+	return 0;
+}
+	
+bool gameOver()
+{
+	//cout<<getMovesLeft()<<" "<<hasEmptyCell()<<"\n";
+	if(hasEmptyCell()==0 && getMovesLeft()==0)
+	{
+		return true;
+	}
+	else return false;
 }
 
 void dwn()
@@ -365,11 +382,52 @@ int main()
     
     while(window.isOpen())
     { 
-        
-            if(check)
-                window.clear(Color::White);
-            else
-                exit(0);
+        	window.clear(Color::White);
+			if(checkwin())
+			{
+				////WINNER////
+				Text text;
+         	    Font f;
+        	    f.loadFromFile("Xcelsion.ttf");
+          	    text.setFont(f);
+        	    text.setCharacterSize(24);
+				text.setColor(Color::Black);
+				text.setString(" Winner winner\nChicken dinner!");
+				text.move(80,280);				           					window.draw(text);
+
+				Event e;
+				while(window.pollEvent(e))
+          	    {
+              	  if(e.type== Event::Closed)
+                    window.close();
+				}
+				window.display();
+			}
+            else if(gameOver())
+           	{	
+				Text text;
+         	    Font f;
+        	    f.loadFromFile("Xcelsion.ttf");
+          	    text.setFont(f);
+        	    text.setCharacterSize(24);
+				text.setColor(Color::Black);
+				text.setString("\t\tGameOver!\nPress any key to exit");
+				text.move(12,280);				           					window.draw(text);
+				
+				Event e;
+				while(window.pollEvent(e))
+          	    {
+              	  if(e.type== Event::Closed)
+                    window.close();
+              	  if(e.type==Event::KeyPressed){
+		    		window.close();		
+					//add reset functionality here
+					}
+				}
+				window.display();
+			}
+			
+			else{	
             //// SCORE /////
 
             Text text;
@@ -424,7 +482,7 @@ int main()
             //// PRINT PANEL //////
             
             window.display();
-            
+		}            
     
     }
         
