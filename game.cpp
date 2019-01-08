@@ -432,7 +432,7 @@ int main()
 
             Text text;
             Font f;
-            f.loadFromFile("Hey.TTF");
+            f.loadFromFile("hey.TTF");
             ostringstream str1; 
             str1 << sum;
             string score = str1.str(); 
